@@ -11,8 +11,7 @@ import java.util.List;
 @RequestMapping("api/user")
 public class UserResource {
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
 
     @GetMapping("/findALl")
     public List<User> findUsers() {

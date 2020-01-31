@@ -1,30 +1,22 @@
 package com.example.todo_list.user;
 
+import com.example.todo_list.TodoServiceTestListApplicationTests;
 import com.example.todo_list.exception.TodoListException;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
-import static org.mockito.ArgumentMatchers.*;
 
-
-import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-public class UserServiceTest {
-    private UserService service;
-    @MockBean
-    private UserRepository userRepository;
+public class UserServiceTest extends TodoServiceTestListApplicationTests {
+    @Autowired private UserService service;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Before
     public void setUp() {
-        service = new UserServiceImpl(userRepository);
+//        service = new UserServiceImpl(userRepository);
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -34,7 +26,7 @@ public class UserServiceTest {
         user.setUserName("test");
         user.setPassword(passwordEncoder.encode("test"));
 
-        when(userRepository.save(any(User.class))).thenReturn(getSavedUser(user));
+//        when(userRepository.save(any(User.class))).thenReturn(getSavedUser(user));
 
         User savedUser = service.register(user);
         assertNotNull(savedUser);
@@ -51,7 +43,7 @@ public class UserServiceTest {
         user.setUserName("test");
         user.setPassword(rawPassword);
 
-        when(userRepository.findByUserName(anyString())).thenReturn(getSavedUser(user));
+//        when(userRepository.findByUserName(anyString())).thenReturn(getSavedUser(user));
 
         service.register(user);
     }
@@ -62,14 +54,14 @@ public class UserServiceTest {
         userToUpdate.setId(1l);
         userToUpdate.setUserName("test");
         userToUpdate.setPassword("test");
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(userToUpdate));
+//        when(userRepository.findById(anyLong())).thenReturn(Optional.of(userToUpdate));
 
         User updatedUser = new User();
         updatedUser.setId(1l);
         updatedUser.setUserName("test update");
         updatedUser.setPassword(passwordEncoder.encode("test"));
 
-        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
+//        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
         User user = service.update(userToUpdate);
         assertNotNull(user);
@@ -84,7 +76,7 @@ public class UserServiceTest {
         user.setUserName("test");
         user.setPassword("test");
 
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+//        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
         String rawPassword = "testUpdate";
 
@@ -92,7 +84,7 @@ public class UserServiceTest {
         updatedUser.setUserName(user.getUserName());
         updatedUser.setPassword(passwordEncoder.encode(rawPassword));
 
-        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
+//        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
         User receivedUser = service.updatePassword(user.getId(), rawPassword);
         assertNotNull(receivedUser);
