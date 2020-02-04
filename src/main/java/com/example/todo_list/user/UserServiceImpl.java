@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
                 throw new TodoListException("Username already existed!");
             }
         }
-        user.setPassword(passwordEncoder.encode(userToUpdate.get().getPassword()));
+        user.setPassword(userToUpdate.get().getPassword());
         return userRepository.save(user);
     }
 
@@ -76,7 +76,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User logIn(User user) {
-        return null;
+        User user1= userRepository.findByUserName(user.getUserName());
+        if(user1 == null || !passwordEncoder.matches(user.getPassword(), user1.getPassword())) {
+            throw new TodoListException("Username/Password is invalid!");
+        }
+        return user1;
     }
 
     @Override

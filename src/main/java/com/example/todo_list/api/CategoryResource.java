@@ -2,6 +2,7 @@ package com.example.todo_list.api;
 
 import com.example.todo_list.category.Category;
 import com.example.todo_list.category.CategoryService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,8 @@ public class CategoryResource {
 
     @Autowired CategoryService categoryService;
 
-    @GetMapping("/findALl")
+    @ApiOperation(value = "Find All Categories")
+    @GetMapping("/findAll")
     public List<Category> findAll() {
         return categoryService.findAll();
     }
@@ -33,8 +35,8 @@ public class CategoryResource {
         return categoryService.update(category);
     }
 
-    @DeleteMapping("delete/{id}")
-    public void delete(@PathVariable long id){
-        categoryService.delete(id);
+    @PutMapping("delete/{id}")
+    public Category delete(@PathVariable long id){
+        return categoryService.delete(id);
     }
 }

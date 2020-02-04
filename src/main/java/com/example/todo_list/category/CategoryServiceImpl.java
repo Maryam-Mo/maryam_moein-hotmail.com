@@ -49,12 +49,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void delete(long id) {
+    public Category delete(long id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (!categoryOptional.isPresent()) {
             throw new TodoListException("Category does not exist!");
         }
         categoryRepository.delete(categoryOptional.get());
+        return categoryOptional.get();
     }
 
 }

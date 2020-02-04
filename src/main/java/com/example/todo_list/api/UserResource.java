@@ -34,14 +34,19 @@ public class UserResource {
         return userService.update(user);
     }
 
-    @PostMapping("/update/password/{id}")
-    public User updatePassword(@PathVariable long id, @RequestBody String newPassword){
-        return userService.updatePassword(id, newPassword);
+    @PostMapping("/update/password")
+    public User updatePassword(@RequestBody User user){
+        return userService.updatePassword(user.getId(), user.getPassword());
     }
 
     @DeleteMapping("delete/{id}")
     public void delete(@PathVariable long id){
         userService.delete(id);
+    }
+
+    @PostMapping("/login")
+    public User login(@RequestBody User user) {
+        return userService.logIn(user);
     }
 
 
