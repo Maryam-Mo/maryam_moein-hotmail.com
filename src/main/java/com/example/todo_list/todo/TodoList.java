@@ -19,19 +19,16 @@ public class TodoList {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
-    private String description;
     private String status;
 
     public TodoList(String name, String description, String status) {
         this.name = name;
-        this.description = description;
         this.status = status;
     }
 
     public TodoList(long id, String name, String description, String status) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.status = status;
     }
 }

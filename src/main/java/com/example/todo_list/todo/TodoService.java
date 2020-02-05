@@ -8,4 +8,5 @@ public interface TodoService {
     TodoList create(TodoList todo);
     TodoList update(TodoList todo);
     void delete(long id);
+    List<TodoList> findAllByStatus(String status);
 }

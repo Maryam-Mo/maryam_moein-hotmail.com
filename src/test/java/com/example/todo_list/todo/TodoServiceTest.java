@@ -18,7 +18,6 @@ public class TodoServiceTest extends TodoServiceTestListApplicationTests {
         assertNotNull(savedTodo);
         assertEquals(todoToSave.getId(), savedTodo.getId());
         assertEquals(todoToSave.getName(), savedTodo.getName());
-        assertEquals(todoToSave.getDescription(), savedTodo.getDescription());
         assertEquals(todoToSave.getStatus(), savedTodo.getStatus());
     }
 

@@ -14,9 +14,14 @@ public class TodoResource {
 
     @Autowired private TodoService todoService;
 
-    @GetMapping("/findALl")
+    @GetMapping("/findAll")
     public List<TodoList> findAll() {
         return todoService.findAll();
+    }
+
+    @GetMapping("/findAllByStatus")
+    public List<TodoList> findAllByStatus(@PathVariable String status) {
+        return todoService.findAllByStatus(status);
     }
 
     @GetMapping("/findById/{id}")

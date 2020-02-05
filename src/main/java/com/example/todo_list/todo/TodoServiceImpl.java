@@ -9,7 +9,10 @@ import java.util.Optional;
 
 @Service
 public class TodoServiceImpl implements TodoService {
+    private static final String NEW = "New";
+
     @Autowired private TodoRepository todoRepository;
+
     @Override
     public List<TodoList> findAll() {
         return todoRepository.findAll();
@@ -26,6 +29,7 @@ public class TodoServiceImpl implements TodoService {
         if (todoList!= null) {
             throw new TodoListException("TodoList name already exist!");
         }
+        todo.setStatus(NEW);
         return todoRepository.save(todo);
     }
 
@@ -49,5 +53,10 @@ public class TodoServiceImpl implements TodoService {
             throw new TodoListException("TodoList does not exist!");
         }
         todoRepository.delete(todoListOptional.get());
+    }
+
+    @Override
+    public List<TodoList> findAllByStatus(String status) {
+        return todoRepository.findAllByStatus(status);
     }
 }
