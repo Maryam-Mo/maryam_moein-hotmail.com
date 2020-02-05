@@ -2,6 +2,8 @@ package com.example.todo_list.api;
 
 import com.example.todo_list.category.Category;
 import com.example.todo_list.category.CategoryService;
+import com.example.todo_list.user.UserCategoryService;
+import com.example.todo_list.user.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.List;
 public class CategoryResource {
 
     @Autowired CategoryService categoryService;
+    @Autowired UserCategoryService userCategoryService;
 
     @ApiOperation(value = "Find All Categories")
     @GetMapping("/findAll")
@@ -27,7 +30,9 @@ public class CategoryResource {
 
     @PostMapping("/create")
     public Category create(@RequestBody Category category) {
-        return categoryService.create(category);
+        Category createdCategory = categoryService.create(category);
+        userCategoryService.createCategoryInfo(category);
+        return createdCategory;
     }
 
     @PostMapping("/update")
@@ -37,6 +42,6 @@ public class CategoryResource {
 
     @PutMapping("delete/{id}")
     public Category delete(@PathVariable long id){
-        return categoryService.delete(id);
+        return userCategoryService.deleteCategoryInfo(id);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.todo_list.user;
 
+import com.example.todo_list.category.Category;
+
 import java.util.List;
 
 public interface UserService {
@@ -11,5 +13,4 @@ public interface UserService {
     User updatePassword(long id, String newPassword);
     void delete(long id);
     User logIn(User user);
-    User logOut(User user);
 }

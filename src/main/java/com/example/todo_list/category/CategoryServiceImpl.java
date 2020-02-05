@@ -1,6 +1,10 @@
 package com.example.todo_list.category;
 
 import com.example.todo_list.exception.TodoListException;
+import com.example.todo_list.user.User;
+import com.example.todo_list.user.UserCategoryServiceImpl;
+import com.example.todo_list.user.UserService;
+import com.example.todo_list.user.UserServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findAll() {
-        return categoryRepository.findAll();
+        return categoryRepository.findAllByUserId(UserServiceImpl.getLoginUser().getId());
     }
 
     @Override
@@ -28,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category create(Category category) {
         Category savedCategory = categoryRepository.findByName(category.getName());
-        if (savedCategory != null) {
+        if (savedCategory != null && category.getUser().getId() == savedCategory.getId()) {
             throw new TodoListException("Category name already exist!");
         }
         return categoryRepository.save(category);
@@ -46,16 +50,6 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         return categoryRepository.save(category);
-    }
-
-    @Override
-    public Category delete(long id) {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (!categoryOptional.isPresent()) {
-            throw new TodoListException("Category does not exist!");
-        }
-        categoryRepository.delete(categoryOptional.get());
-        return categoryOptional.get();
     }
 
 }

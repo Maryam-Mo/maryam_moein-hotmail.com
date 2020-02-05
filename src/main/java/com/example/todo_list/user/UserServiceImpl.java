@@ -1,5 +1,6 @@
 package com.example.todo_list.user;
 
+import com.example.todo_list.category.CategoryServiceImpl;
 import com.example.todo_list.exception.TodoListException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,12 +10,19 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static User loginUser;
     private final UserRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
+    }
+
+
+    public static User getLoginUser() {
+        return loginUser;
     }
 
     @Override
@@ -76,16 +84,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User logIn(User user) {
-        User user1= userRepository.findByUserName(user.getUserName());
-        if(user1 == null || !passwordEncoder.matches(user.getPassword(), user1.getPassword())) {
+        loginUser= userRepository.findByUserName(user.getUserName());
+        if(loginUser == null || !passwordEncoder.matches(user.getPassword(), loginUser.getPassword())) {
             throw new TodoListException("Username/Password is invalid!");
         }
-        return user1;
-    }
-
-    @Override
-    public User logOut(User user) {
-        return null;
+        return loginUser;
     }
 
 }
