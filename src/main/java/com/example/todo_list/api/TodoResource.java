@@ -19,7 +19,7 @@ public class TodoResource {
         return todoService.findAll();
     }
 
-    @GetMapping("/findAllByStatus")
+    @PutMapping("/findAllByStatus/{status}")
     public List<TodoList> findAllByStatus(@PathVariable String status) {
         return todoService.findAllByStatus(status);
     }
