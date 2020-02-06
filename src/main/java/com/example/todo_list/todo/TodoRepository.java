@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TodoRepository extends JpaRepository<TodoList, Long> {
 
-    TodoList findByName(String name);
-    List<TodoList> findAllByStatus(String status);
+    List<TodoList> findByName(String name);
+    List<TodoList> findAllByStatusAndCategoryId(String status, long id);
 }

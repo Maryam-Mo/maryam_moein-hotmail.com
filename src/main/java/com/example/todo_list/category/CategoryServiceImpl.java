@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category create(Category category) {
         Category savedCategory = categoryRepository.findByName(category.getName());
-        if (savedCategory != null && category.getUser().getId() == savedCategory.getId()) {
+        if (savedCategory != null && category.getUser().getId() == savedCategory.getUser().getId()) {
             throw new TodoListException("Category name already exist!");
         }
         return categoryRepository.save(category);
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new TodoListException("Category does not exist!");
         } else {
             Category duplicatedCategory = categoryRepository.findByName(category.getName());
-            if (duplicatedCategory != null && category.getId() != categoryOptional.get().getId()) {
+            if (duplicatedCategory != null && category.getId() != categoryOptional.get().getId() && category.getUser().getId() == duplicatedCategory.getUser().getId()) {
                 throw new TodoListException("Category name is already existed!");
             }
         }

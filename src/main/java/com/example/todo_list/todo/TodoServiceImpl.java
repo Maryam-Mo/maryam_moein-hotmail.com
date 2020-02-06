@@ -1,6 +1,9 @@
 package com.example.todo_list.todo;
 
+import com.example.todo_list.category.CategoryRepository;
 import com.example.todo_list.exception.TodoListException;
+import com.example.todo_list.user.UserService;
+import com.example.todo_list.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +27,13 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public TodoList create(TodoList todo) {
-        TodoList todoList = todoRepository.findByName(todo.getName());
-        if (todoList!= null) {
-            throw new TodoListException("TodoList name already exist!");
+        List<TodoList> todoLists = todoRepository.findByName(todo.getName());
+        for (TodoList todoList: todoLists){
+            if (todoList.getCategory().getUser().getId() == UserServiceImpl.getLoginUser().getId()) {
+                if (todoList != null && todoList.getId() != todo.getId() && todo.getCategory().getUser().getId() == todoList.getCategory().getUser().getId()) {
+                    throw new TodoListException("TodoList name already exist!");
+                }
+            }
         }
         return todoRepository.save(todo);
     }
@@ -37,9 +44,13 @@ public class TodoServiceImpl implements TodoService {
         if (!todoListOptional.isPresent()){
             throw new TodoListException("TodoList does not exist!");
         }
-        TodoList todoList = todoRepository.findByName(todo.getName());
-        if (todoList!= null && todoList.getId() != todo.getId()) {
-            throw new TodoListException("TodoList name already exist!");
+        List<TodoList> todoLists = todoRepository.findByName(todo.getName());
+        for (TodoList todoList: todoLists){
+            if (todoList.getCategory().getUser().getId() == UserServiceImpl.getLoginUser().getId()){
+                if (todoList!= null && todoList.getId() != todo.getId() && todo.getCategory().getUser().getId() == todoList.getCategory().getUser().getId()) {
+                    throw new TodoListException("TodoList name already exist!");
+                }
+            }
         }
         return todoRepository.save(todo);
     }
@@ -54,7 +65,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<TodoList> findAllByStatus(String status) {
-        return todoRepository.findAllByStatus(status);
+    public List<TodoList> findAllByStatus(TodoRequest todoRequest) {
+        return todoRepository.findAllByStatusAndCategoryId(todoRequest.getStatus(), todoRequest.getCategoryId());
     }
 }

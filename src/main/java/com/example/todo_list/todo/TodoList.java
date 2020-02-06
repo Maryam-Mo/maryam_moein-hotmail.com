@@ -1,13 +1,11 @@
 package com.example.todo_list.todo;
 
+import com.example.todo_list.category.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -21,14 +19,29 @@ public class TodoList {
     private String name;
     private String status;
 
-    public TodoList(String name, String description, String status) {
+    @ManyToOne()
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public TodoList(String name, String status) {
         this.name = name;
         this.status = status;
     }
 
-    public TodoList(long id, String name, String description, String status) {
+    public TodoList(String name, String status, Category category) {
+        this.name = name;
+        this.status = status;
+        this.category = category;
+    }
+
+    public TodoList(long id, String name, String status, Category category) {
         this.id = id;
         this.name = name;
         this.status = status;
+        this.category = category;
     }
 }

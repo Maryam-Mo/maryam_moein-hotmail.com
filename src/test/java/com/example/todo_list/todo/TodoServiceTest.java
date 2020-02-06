@@ -1,6 +1,7 @@
 package com.example.todo_list.todo;
 
 import com.example.todo_list.TodoServiceTestListApplicationTests;
+import com.example.todo_list.category.Category;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +14,7 @@ public class TodoServiceTest extends TodoServiceTestListApplicationTests {
 
     @Test
     public void create(){
-        TodoList todoToSave = new TodoList(1, "Todo1", "chgnvjhmb", "new");
+        TodoList todoToSave = new TodoList(1, "Todo1", "chgnvjhmb", new Category("cat1"));
         TodoList savedTodo = todoService.create(todoToSave);
         assertNotNull(savedTodo);
         assertEquals(todoToSave.getId(), savedTodo.getId());
