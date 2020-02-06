@@ -30,7 +30,9 @@ public class TodoServiceImpl implements TodoService {
         List<TodoList> todoLists = todoRepository.findByName(todo.getName());
         for (TodoList todoList: todoLists){
             if (todoList.getCategory().getUser().getId() == UserServiceImpl.getLoginUser().getId()) {
-                if (todoList != null && todoList.getId() != todo.getId() && todo.getCategory().getUser().getId() == todoList.getCategory().getUser().getId()) {
+                if (todoList != null && todoList.getId() != todo.getId() &&
+                        todo.getCategory().getId() == todoList.getCategory().getId() &&
+                        todo.getCategory().getUser().getId() == todoList.getCategory().getUser().getId()) {
                     throw new TodoListException("TodoList name already exist!");
                 }
             }
@@ -47,7 +49,9 @@ public class TodoServiceImpl implements TodoService {
         List<TodoList> todoLists = todoRepository.findByName(todo.getName());
         for (TodoList todoList: todoLists){
             if (todoList.getCategory().getUser().getId() == UserServiceImpl.getLoginUser().getId()){
-                if (todoList!= null && todoList.getId() != todo.getId() && todo.getCategory().getUser().getId() == todoList.getCategory().getUser().getId()) {
+                if (todoList!= null && todoList.getId() != todo.getId() &&
+                        todo.getCategory().getId() == todoList.getCategory().getId() &&
+                        todo.getCategory().getUser().getId() == todoList.getCategory().getUser().getId()) {
                     throw new TodoListException("TodoList name already exist!");
                 }
             }
