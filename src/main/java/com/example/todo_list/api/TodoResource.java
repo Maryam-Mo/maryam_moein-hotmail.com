@@ -44,8 +44,8 @@ public class TodoResource {
         return todoService.update(todoList);
     }
 
-    @DeleteMapping("delete/{id}")
-    public void delete(@PathVariable long id){
-        todoService.delete(id);
+    @PutMapping("delete/{id}")
+    public TodoList delete(@PathVariable long id){
+        return categoryTodoService.delete(id);
     }
 }

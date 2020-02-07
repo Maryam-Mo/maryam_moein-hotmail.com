@@ -25,8 +25,18 @@ public class CategoryTodoServiceImpl implements CategoryTodoService {
     }
 
     @Override
-    public TodoList update(TodoList todoList) {
-
-        return null;
+    public TodoList delete(long id) {
+        Optional<TodoList> todoOptional = todoRepository.findById(id);
+        if (!todoOptional.isPresent()) {
+            throw new TodoListException("Todo does not exist!");
+        }
+        Optional<Category> categoryOptional = categoryRepository.findById(todoOptional.get().getCategory().getId());
+        if (!categoryOptional.isPresent()){
+            throw new TodoListException("Category does not exist!");
+        }
+        categoryOptional.get().setTodoLists(categoryOptional.get().removeTodoList(todoOptional.get()));
+        categoryRepository.save(categoryOptional.get());
+        todoRepository.delete(todoOptional.get());
+        return todoOptional.get();
     }
 }
